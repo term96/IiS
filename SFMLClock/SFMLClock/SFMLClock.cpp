@@ -20,12 +20,12 @@
 int main()
 {
 	// Define some variables and constants
-	const int screenWidth = 800;
-	const int screenHeight = 600;
-	const float PI = 3.1415927;
-	const int clockCircleSize = 250;
-	const int clockCircleThickness = 2;
-	int x, y;
+	static const int SCREEN_WIDTH = 800;
+	static const int SCREEN_HEIGHT = 600;
+	static const float PI = 3.1415927f;
+	static const float CLOCK_CIRCLE_SIZE = 250;
+	static const float CLOCK_CIRCLE_THICKNESS = 2;
+	float x, y;
 	float angle = 0.0;
 
 	// Set multisampling level
@@ -33,7 +33,7 @@ int main()
 	settings.antialiasingLevel = 8;
 
 	// Create the window of the application
-	sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "SFML Analog Clock", sf::Style::Close, settings);
+	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML Analog Clock", sf::Style::Close, settings);
 
 	// Define windowCenter which gets the center of the window here, right after creating window
 	sf::Vector2f windowCenter = sf::Vector2f(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
@@ -42,10 +42,10 @@ int main()
 	sf::CircleShape dot[60];
 
 	// Create dots and place them to very right positions
-	for (int i = 0; i<60; i++)
+	for (int i = 0; i < 60; i++)
 	{
-		x = (clockCircleSize - 10) * cos(angle);
-		y = (clockCircleSize - 10) * sin(angle);
+		x = (CLOCK_CIRCLE_SIZE - 10) * cos(angle);
+		y = (CLOCK_CIRCLE_SIZE - 10) * sin(angle);
 
 		if (i % 5 == 0)
 			dot[i] = sf::CircleShape(3);
@@ -59,13 +59,13 @@ int main()
 	}
 
 	// Create outline of the clock
-	sf::CircleShape clockCircle(clockCircleSize);
+	sf::CircleShape clockCircle(CLOCK_CIRCLE_SIZE);
 
 	clockCircle.setPointCount(100);
-	clockCircle.setOutlineThickness(clockCircleThickness);
+	clockCircle.setOutlineThickness(CLOCK_CIRCLE_THICKNESS);
 	clockCircle.setOutlineColor(sf::Color::Black);
 	clockCircle.setOrigin(clockCircle.getGlobalBounds().width / 2, clockCircle.getGlobalBounds().height / 2);
-	clockCircle.setPosition(window.getSize().x / 2 + clockCircleThickness, window.getSize().y / 2 + clockCircleThickness);
+	clockCircle.setPosition(window.getSize().x / 2 + CLOCK_CIRCLE_THICKNESS, window.getSize().y / 2 + CLOCK_CIRCLE_THICKNESS);
 
 	// Crate another circle for center
 	sf::CircleShape centerCircle(10);
@@ -111,7 +111,7 @@ int main()
 	clockBrandSprite.setOrigin(clockBrandSprite.getTextureRect().left + clockBrandSprite.getTextureRect().width / 2.0f,
 		clockBrandSprite.getTextureRect().top + clockBrandSprite.getTextureRect().height / 2.0f);
 
-	clockBrandSprite.setPosition(window.getSize().x / 2, window.getSize().y - 100);
+	clockBrandSprite.setPosition(window.getSize().x / 2.0f, window.getSize().y - 100.0f);
 
 
 	// Create clock background
@@ -138,11 +138,12 @@ int main()
 		// Get system time
 		std::time_t currentTime = std::time(NULL);
 
-		struct tm * ptm = localtime(&currentTime);
+		struct tm * ptm = new tm;
+		localtime_s(ptm, &currentTime);
 
-		hourHand.setRotation(ptm->tm_hour * 30 + (ptm->tm_min / 2));
-		minuteHand.setRotation(ptm->tm_min * 6 + (ptm->tm_sec / 12));
-		secondsHand.setRotation(ptm->tm_sec * 6);
+		hourHand.setRotation(ptm->tm_hour * 30.0f + (ptm->tm_min / 2));
+		minuteHand.setRotation(ptm->tm_min * 6.0f + (ptm->tm_sec / 10));
+		secondsHand.setRotation(ptm->tm_sec * 6.0f);
 
 		// Clear the window
 		window.clear(sf::Color::White);
