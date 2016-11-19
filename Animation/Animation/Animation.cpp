@@ -154,7 +154,8 @@ void DrawRects(RectangleShape (&rects)[RECTS_COUNT], RenderWindow &window)
 	}
 }
 
-void StartAnimationLoop(RectangleShape (&rects)[RECTS_COUNT], RenderWindow &window) {
+void StartAnimationLoop(RectangleShape (&rects)[RECTS_COUNT], RenderWindow &window) 
+{
 	Side side;
 	while (window.isOpen())
 	{
@@ -167,7 +168,7 @@ void StartAnimationLoop(RectangleShape (&rects)[RECTS_COUNT], RenderWindow &wind
 		// синхронное перемещение вверх/вниз + асинхронное перемещение влево/вправо
 		MoveRects(rects);
 
-		RotateRects(rects);
+		//RotateRects(rects);
 
 		// синхронное изменение цвета при попадании в верхний левый угол
 		side = GetSide(rects);
