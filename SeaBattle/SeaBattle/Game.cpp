@@ -47,6 +47,7 @@ void InitiateGame(Game &game)
 		}
 	}
 
+	srand(static_cast<unsigned int>(time(nullptr)));
 	RandomlyPlaceShips(game, game.enemyField);
 	RandomlyPlaceShips(game, game.playerField);
 	ShowPlayerShips(game);

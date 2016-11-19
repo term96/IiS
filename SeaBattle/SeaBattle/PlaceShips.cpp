@@ -137,8 +137,6 @@ void RandomlyPlaceSingleDecked(Game & game, Field & field)
 
 void RandomlyPlaceShips(Game & game, Field & field)
 {
-	srand(static_cast<unsigned int>(time(nullptr)));
-
 	RandomlyPlaceSingleDecked(game, field);
 	RandomlyPlaceSingleDecked(game, field);
 	RandomlyPlaceSingleDecked(game, field);
